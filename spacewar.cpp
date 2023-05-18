@@ -44,8 +44,14 @@ void Spacewar::update()
 
     const BYTE trigger = input->getGamepadLeftTrigger(0);
     if (trigger > 0) {
-        input->gamePadVibrateLeft(0, trigger * 0.5, 2);
+        //input->gamePadVibrateLeft(0, trigger * 0.5, 2);
     }
+
+    // left click changes bg color to red
+    if (input->getMouseLButton()) {
+        graphics->setBackColor(SETCOLOR_ARGB(255, 128, 0, 0));
+    }
+
 }
 
 //=============================================================================
