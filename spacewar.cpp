@@ -41,6 +41,11 @@ void Spacewar::update()
     if (input->getTextIn() == "exit") {
         PostQuitMessage(0);
     }
+
+    const BYTE trigger = input->getGamepadLeftTrigger(0);
+    if (trigger > 0) {
+        input->gamePadVibrateLeft(0, trigger * 0.5, 2);
+    }
 }
 
 //=============================================================================
@@ -59,7 +64,12 @@ void Spacewar::collisions()
 // Render game items
 //=============================================================================
 void Spacewar::render()
-{}
+{
+    //LPCSTR temp = (LPCSTR)input->getGamepadLeftTrigger();
+    //TextOutA(graphics->getDC(), 0, 0, "b", 2);
+    //TextOutA(graphics->getDC(), 0, 0, (LPCSTR)input->getCharIn(), 2);
+    //TextOutA(graphics->getDC(), 0, 0, (LPCSTR)input->getGamepadLeftTrigger(0), 1);
+}
 
 //=============================================================================
 // The graphics device was lost.
