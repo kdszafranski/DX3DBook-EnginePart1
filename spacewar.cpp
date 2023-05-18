@@ -40,6 +40,8 @@ void Spacewar::update()
     // check if we want to exit
     CheckForExit();
 
+
+
     // vibrate gamepad based on trigger input level
     const BYTE leftTriggerAmount = input->getGamepadLeftTrigger(0);
     if (leftTriggerAmount > 0) {
@@ -105,6 +107,11 @@ void Spacewar::render()
 
 
 void Spacewar::CheckForExit() {
+    // ESC key
+    if (input->isKeyDown(ESC_KEY)) {
+        PostQuitMessage(0);
+    }
+
     // typed exit? or pressed B button
     if (input->getTextIn() == "exit" || input->getGamepadB(0)) {
         PostQuitMessage(0);
