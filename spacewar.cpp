@@ -51,6 +51,10 @@ void Spacewar::update()
     if (input->getMouseLButton()) {
         graphics->setBackColor(SETCOLOR_ARGB(255, 128, 0, 0));
     }
+    // right click changes bg color to yellow
+    if (input->getMouseRButton()) {
+        graphics->setBackColor(SETCOLOR_ARGB(255, 255, 255, 0));
+    }
 
 }
 
