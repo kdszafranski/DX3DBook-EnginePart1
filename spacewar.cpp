@@ -37,10 +37,8 @@ void Spacewar::initialize(HWND hwnd)
 //=============================================================================
 void Spacewar::update()
 {
-    // typed exit? then exit
-    if (input->getTextIn() == "exit") {
-        PostQuitMessage(0);
-    }
+    // check if we want to exit
+    CheckForExit();
 
     // vibrate gamepad based on trigger input level
     const BYTE leftTriggerAmount = input->getGamepadLeftTrigger(0);
@@ -56,16 +54,18 @@ void Spacewar::update()
         input->gamePadVibrateRight(0, rightTriggerAmount * 255, 1);
     }
 
-    // left click changes bg color to red
-    if (input->getMouseLButton()) {
+    // left click or X button changes bg color to red
+    if (input->getMouseLButton() || input->getGamepadX(0)) {
         graphics->setBackColor(SETCOLOR_ARGB(255, 128, 0, 0));
     }
-    // right click changes bg color to yellow
-    if (input->getMouseRButton()) {
+    // right click or A button changes bg color to yellow
+    if (input->getMouseRButton() || input->getGamepadA(0)) {
         graphics->setBackColor(SETCOLOR_ARGB(255, 255, 255, 0));
     }
 
 }
+
+
 
 //=============================================================================
 // Artificial Intelligence
@@ -101,6 +101,14 @@ void Spacewar::render()
     temp = NULL;
 
     //TextOutA(graphics->getDC(), 0, 0, (LPCSTR)input->getGamepadLeftTrigger(0), 1);
+}
+
+
+void Spacewar::CheckForExit() {
+    // typed exit? or pressed B button
+    if (input->getTextIn() == "exit" || input->getGamepadB(0)) {
+        PostQuitMessage(0);
+    }
 }
 
 //=============================================================================
