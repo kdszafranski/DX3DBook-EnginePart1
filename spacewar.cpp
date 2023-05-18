@@ -42,9 +42,12 @@ void Spacewar::update()
         PostQuitMessage(0);
     }
 
-    const BYTE trigger = input->getGamepadLeftTrigger(0);
-    if (trigger > 0) {
-        input->gamePadVibrateLeft(0, 20000, 2);
+    // vibrate gamepad based on trigger input level
+    triggerAmount = input->getGamepadLeftTrigger(0);
+    if (triggerAmount > 0) {
+        // BYTE -> WORD 0xFF -> 0xFFFF which is 255 times larger 255 * 255 = 65025
+        // still off a bit. max gamepad motor speed is 65535...
+        input->gamePadVibrateLeft(0, triggerAmount * 255, 1);
     }
 
     // left click changes bg color to red
@@ -85,7 +88,9 @@ void Spacewar::render()
     
     // display entered characters, flickers... should be thru D3D
     LPCSTR temp = input->getTextIn().c_str();
-    TextOutA(graphics->getDC(), 10, 10, temp, 4);
+    TextOutA(graphics->getDC(), 10, 10, temp, 20);
+
+    //TextOutA(graphics->getDC(), 10, 10, (LPCSTR)triggerAmount, 4);
 
     temp = NULL;
 

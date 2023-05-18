@@ -16,6 +16,7 @@ class Spacewar : public Game
 {
 private:
     // variables
+    unsigned char triggerAmount = 0;
 
 public:
     // Constructor
