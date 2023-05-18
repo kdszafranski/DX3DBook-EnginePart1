@@ -87,22 +87,12 @@ void Spacewar::collisions()
 void Spacewar::render()
 {
     //LPCSTR temp = (LPCSTR)input->getGamepadLeftTrigger(0);
-    //TextOutA(graphics->getDC(), 0, 0, "b", 2);
-    // Initializing an object of wstring
-    //string_w temp = wstring(str.begin(), str.end());
-
-    // Applying c_str() method on temp
-    //LPCWSTR wideString = temp.c_str();
+    //TextOutA(graphics->getDC(), 10, 10, (LPCSTR)temp, 4);
     
     // display entered characters, flickers... should be thru D3D
     LPCSTR temp = input->getTextIn().c_str();
     TextOutA(graphics->getDC(), 10, 10, temp, 20);
 
-    //TextOutA(graphics->getDC(), 10, 10, (LPCSTR)triggerAmount, 4);
-
-    temp = NULL;
-
-    //TextOutA(graphics->getDC(), 0, 0, (LPCSTR)input->getGamepadLeftTrigger(0), 1);
 }
 
 
