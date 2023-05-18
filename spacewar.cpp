@@ -43,11 +43,17 @@ void Spacewar::update()
     }
 
     // vibrate gamepad based on trigger input level
-    triggerAmount = input->getGamepadLeftTrigger(0);
-    if (triggerAmount > 0) {
+    const BYTE leftTriggerAmount = input->getGamepadLeftTrigger(0);
+    if (leftTriggerAmount > 0) {
         // BYTE -> WORD 0xFF -> 0xFFFF which is 255 times larger 255 * 255 = 65025
         // still off a bit. max gamepad motor speed is 65535...
-        input->gamePadVibrateLeft(0, triggerAmount * 255, 1);
+        input->gamePadVibrateLeft(0, leftTriggerAmount * 255, 1);
+    }
+    
+    // vibrate gamepad based on trigger input level
+    const BYTE rightTriggerAmount = input->getGamepadRightTrigger(0);
+    if (rightTriggerAmount > 0) {
+        input->gamePadVibrateRight(0, rightTriggerAmount * 255, 1);
     }
 
     // left click changes bg color to red
