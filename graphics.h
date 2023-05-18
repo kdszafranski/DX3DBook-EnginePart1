@@ -15,12 +15,17 @@
 class Graphics;
 
 #include <d3d9.h>
+// d3dx9 utility headers needed
+// https://stackoverflow.com/questions/17015088/missing-files-directx-sdk-d3dx9-lib-d3dx9-h
+// http://www.microsoft.com/en-us/download/details.aspx?id=6812
+#include <d3dx9.h>
 #include "constants.h"
 #include "gameError.h"
 
 // DirectX pointer types
 #define LP_3DDEVICE LPDIRECT3DDEVICE9
 #define LP_3D       LPDIRECT3D9
+#define LP_SPRITE   LPD3DXSPRITE
 
 // Color defines
 // ARGB numbers range from 0 through 255
@@ -36,6 +41,7 @@ private:
     // DirectX pointers and stuff
     LP_3D       direct3d;
     LP_3DDEVICE device3d;
+    LP_SPRITE sprite;
     D3DPRESENT_PARAMETERS d3dpp;
     D3DDISPLAYMODE pMode;
 
