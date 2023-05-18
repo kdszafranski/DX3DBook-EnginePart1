@@ -36,7 +36,12 @@ void Spacewar::initialize(HWND hwnd)
 // Update all game items
 //=============================================================================
 void Spacewar::update()
-{}
+{
+    // typed exit? then exit
+    if (input->getTextIn() == "exit") {
+        PostQuitMessage(0);
+    }
+}
 
 //=============================================================================
 // Artificial Intelligence
