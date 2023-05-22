@@ -99,6 +99,7 @@
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="spacewar.cpp" />
+    <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +110,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="spacewar.h" />
+    <ClInclude Include="textureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

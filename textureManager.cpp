@@ -1,0 +1,68 @@
+#include "textureManager.h";
+
+//=============================================================================
+// Constructor
+//=============================================================================
+TextureManager::TextureManager()
+{
+	texture = NULL;
+	width = 0;
+	height = 0;
+	file = NULL;
+	graphics = NULL;
+	initialized = false;  // set true when successfully initialized
+}
+
+//=============================================================================
+// Destructor
+//=============================================================================
+TextureManager::~TextureManager()
+{
+	SAFE_RELEASE(texture);
+}
+
+
+//=============================================================================
+// Loads the texture file from disk
+// Parameters: pointers to graphics object and filename
+// Post: returns true if successful, false if failed
+//=============================================================================
+bool TextureManager::initialize(Graphics* g, const char* f)
+{
+	try {
+		graphics = g;	// the graphics object
+		file = f;		// the texture file
+
+		// width, height both passed in by ref to our private variables
+		// texture is filled with the texture data
+		hr = graphics->loadTexture(file, TRANSCOLOR, width, height, texture);
+
+		if (FAILED(hr)) {
+			SAFE_RELEASE(texture);
+			return false;
+		}
+	}
+	catch (...) { return false; }
+
+	// all cool, texture loaded
+	initialized = true;
+
+	return true;
+}
+
+//=============================================================================
+// Called when graphics device is lost
+//=============================================================================
+// called when graphics device is lost
+void TextureManager::onLostDevice() {
+	if (!initialized) { return; }
+	
+	SAFE_RELEASE(texture);
+}
+
+void TextureManager::onResetDevice() {
+	if (!initialized) { return; }
+
+	graphics->loadTexture(file, TRANSCOLOR, width, height, texture);
+}
+
