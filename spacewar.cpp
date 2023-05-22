@@ -40,8 +40,6 @@ void Spacewar::update()
     // check if we want to exit
     CheckForExit();
 
-
-
     // vibrate gamepad based on trigger input level
     const BYTE leftTriggerAmount = input->getGamepadLeftTrigger(0);
     if (leftTriggerAmount > 0) {
@@ -90,8 +88,8 @@ void Spacewar::render()
     //TextOutA(graphics->getDC(), 10, 10, (LPCSTR)temp, 4);
     
     // display entered characters, flickers... should be thru D3D
-    LPCSTR temp = input->getTextIn().c_str();
-    TextOutA(graphics->getDC(), 10, 10, temp, 20);
+    /*LPCSTR temp = input->getTextIn().c_str();
+    TextOutA(graphics->getDC(), 10, 10, temp, 20);*/
 
 }
 
