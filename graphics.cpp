@@ -40,17 +40,21 @@ void Graphics::initialize(HWND hw, int w, int h, bool full)
     //initialize Direct3D
     direct3d = Direct3DCreate9(D3D_SDK_VERSION);
     if (direct3d == NULL)
+    {
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Direct3D"));
+    }
 
     initD3Dpp();        // init D3D presentation parameters
     if(fullscreen)      // if full-screen mode
     {
-        if(isAdapterCompatible())   // is the adapter compatible
-            // set the refresh rate with a compatible one
+        if (isAdapterCompatible())   // is the adapter compatible
+        {
             d3dpp.FullScreen_RefreshRateInHz = pMode.RefreshRate;
-        else
-            throw(GameError(gameErrorNS::FATAL_ERROR, 
-            "The graphics device does not support the specified resolution and/or format."));
+
+        } else {            // set the refresh rate with a compatible one
+            throw(GameError(gameErrorNS::FATAL_ERROR,
+                "The graphics device does not support the specified resolution and/or format."));
+        }
     }
 
     // determine if graphics card supports harware texturing and lighting and vertex shaders
@@ -59,11 +63,13 @@ void Graphics::initialize(HWND hw, int w, int h, bool full)
     result = direct3d->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps);
     // If device doesn't support HW T&L or doesn't support 1.1 vertex 
     // shaders in hardware, then switch to software vertex processing.
-    if( (caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) == 0 ||
-            caps.VertexShaderVersion < D3DVS_VERSION(1,1) )
+    if ((caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) == 0 ||
+        caps.VertexShaderVersion < D3DVS_VERSION(1, 1))
+    {
         behavior = D3DCREATE_SOFTWARE_VERTEXPROCESSING;  // use software only processing
-    else
+    } else {
         behavior = D3DCREATE_HARDWARE_VERTEXPROCESSING;  // use hardware only processing
+    }
 
     //create Direct3D device
     result = direct3d->CreateDevice(
@@ -74,8 +80,13 @@ void Graphics::initialize(HWND hw, int w, int h, bool full)
         &d3dpp, 
         &device3d);
 
-    if (FAILED(result))
+    if (FAILED(result)) {
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error creating Direct3D device"));
+    }
+
+    if (FAILED(result)) {
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error creating Direct3D sprite"));
+    }
  
 }
 
