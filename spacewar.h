@@ -8,6 +8,8 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "game.h"
+#include "textureManager.h"
+#include "image.h"
 
 //=============================================================================
 // Create game class
@@ -16,6 +18,10 @@ class Spacewar : public Game
 {
 private:
     // variables
+    TextureManager nebulaTexture;
+    //TextureManager planetTexture;
+    //Image planet;
+    //Image nebula;
 
 public:
     // Constructor

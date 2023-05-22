@@ -1,13 +1,26 @@
-#include "image.h";
+#include "image.h"
 
 Image::Image() 
 {
 	initialized = false;
-	colorFilter = graphicsNS::WHITE; // defined here again! sheesh.
-	
+	colorFilter = graphicsNS::WHITE; // defined here again! sheesh.	
 	graphics = NULL;
 	textureManager = NULL;
-	spriteData = {};
+	
+	// our SpriteData
+	spriteData.width = 2;
+	spriteData.height = 2;
+	spriteData.x = 0.0;
+	spriteData.y = 0.0;
+	spriteData.scale = 1.0;
+	spriteData.angle = 0.0;
+	spriteData.rect.left = 0;       // used to select one frame from multi-frame image
+	spriteData.rect.top = 0;
+	spriteData.rect.right = spriteData.width;
+	spriteData.rect.bottom = spriteData.height;
+	spriteData.texture = NULL;      // the sprite texture (picture)
+	spriteData.flipHorizontal = false;
+	spriteData.flipVertical = false;
 
 	frameCols = 0;
 	startFrame = 1;
@@ -109,7 +122,26 @@ void Image::draw(SpriteData sd, COLOR_ARGB color)
 }
 
 void Image::update(float frameTime) {
-	// TBD
+	if (endFrame - startFrame > 0)          // if animated sprite
+	{
+		animTimer += frameTime;             // total elapsed time
+		if (animTimer > frameDelay)
+		{
+			animTimer -= frameDelay;
+			currentFrame++;
+			if (currentFrame < startFrame || currentFrame > endFrame)
+			{
+				if (loop == true)            // if looping animation
+					currentFrame = startFrame;
+				else                        // not looping animation
+				{
+					currentFrame = endFrame;
+					animComplete = true;    // animation complete
+				}
+			}
+			setRect();                      // set spriteData.rect
+		}
+	}
 }
 
 //=============================================================================

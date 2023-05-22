@@ -1,8 +1,8 @@
 #ifndef _TEXTURE_MANAGER_H
 #define _TEXTURE_MANAGER_H
 
-#include "graphics.h";
-#include "constants.h";
+#include "graphics.h"
+#include "constants.h"
 
 class TextureManager
 {

@@ -29,6 +29,15 @@ void Spacewar::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
 
+    // load and init our images from texture files
+    //if (!nebulaTexture.initialize(graphics, SHIP_IMAGE)) {
+    //    throw(GameError(gameErrorNS::FATAL_ERROR, "Error init nebula texture"));
+    //}
+
+    ////// place image in the middle of the screen
+    //nebula.setX(GAME_WIDTH * 0.5f - nebula.getWidth() * 0.5f);
+    //nebula.setY(GAME_HEIGHT * 0.5f - nebula.getHeight() * 0.5f);
+
     return;
 }
 
@@ -91,6 +100,9 @@ void Spacewar::render()
     /*LPCSTR temp = input->getTextIn().c_str();
     TextOutA(graphics->getDC(), 10, 10, temp, 20);*/
 
+    //graphics->spriteBegin();
+    //nebula.draw();
+    //graphics->spriteEnd();
 }
 
 
@@ -122,6 +134,7 @@ void Spacewar::releaseAll()
 //=============================================================================
 void Spacewar::resetAll()
 {
+    nebulaTexture.onLostDevice();
     Game::resetAll();
     return;
 }
