@@ -12,7 +12,6 @@ private:
 	LP_TEXTURE texture;
 	Graphics *graphics;
 	const char *file;
-	const COLOR_ARGB TRANSCOLOR = graphicsNS::WHITE;
 	bool initialized;
 	HRESULT hr;
 
