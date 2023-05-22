@@ -97,6 +97,7 @@
   <ItemGroup>
     <ClCompile Include="game.cpp" />
     <ClCompile Include="graphics.cpp" />
+    <ClCompile Include="image.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="spacewar.cpp" />
     <ClCompile Include="textureManager.cpp" />

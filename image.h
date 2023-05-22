@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef _IMAGE_H_
 #define _IMAGE_H_
 
@@ -117,7 +115,7 @@ public:
     virtual COLOR_ARGB getColorFilter() { return colorFilter; }
 
     ////////////////////////////////////////
-    //           Set functions            //
+    //           Setter functions            //
     ////////////////////////////////////////
 
     // Set X location.
