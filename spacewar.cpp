@@ -29,14 +29,17 @@ void Spacewar::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
 
-    // load and init our images from texture files
-    //if (!nebulaTexture.initialize(graphics, SHIP_IMAGE)) {
-    //    throw(GameError(gameErrorNS::FATAL_ERROR, "Error init nebula texture"));
-    //}
+     //load and init our images from texture files
+    if (!nebulaTexture.initialize(graphics, NEBULA_IMAGE)) {
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error init nebula texture"));
+    }
+    if (!nebula.initialize(graphics, 0, 0, 0, &nebulaTexture)) {
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error init nebula image"));
+    }
 
-    ////// place image in the middle of the screen
-    //nebula.setX(GAME_WIDTH * 0.5f - nebula.getWidth() * 0.5f);
-    //nebula.setY(GAME_HEIGHT * 0.5f - nebula.getHeight() * 0.5f);
+    if (nebula.getHeight() == 800) {
+           
+    }
 
     return;
 }
@@ -100,7 +103,9 @@ void Spacewar::render()
     /*LPCSTR temp = input->getTextIn().c_str();
     TextOutA(graphics->getDC(), 10, 10, temp, 20);*/
 
-    //graphics->spriteBegin();
+    //graphics->spriteBegin(); // fails, read exception..? don't know why
+    //// texture and image appear to load fine
+
     //nebula.draw();
     //graphics->spriteEnd();
 }
@@ -124,6 +129,8 @@ void Spacewar::CheckForExit() {
 //=============================================================================
 void Spacewar::releaseAll()
 {
+    nebulaTexture.onLostDevice();
+    
     Game::releaseAll();
     return;
 }

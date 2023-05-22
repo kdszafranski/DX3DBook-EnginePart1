@@ -1,13 +1,8 @@
 #include "image.h"
 
-Image::Image() 
+Image::Image()
 {
-	initialized = false;
-	colorFilter = graphicsNS::WHITE; // defined here again! sheesh.	
-	graphics = NULL;
-	textureManager = NULL;
-	
-	// our SpriteData
+	initialized = false;            // set true when successfully initialized
 	spriteData.width = 2;
 	spriteData.height = 2;
 	spriteData.x = 0.0;
@@ -21,14 +16,18 @@ Image::Image()
 	spriteData.texture = NULL;      // the sprite texture (picture)
 	spriteData.flipHorizontal = false;
 	spriteData.flipVertical = false;
-
-	frameCols = 0;
-	startFrame = 1;
+	frameCols = 1;
+	textureManager = NULL;
+	startFrame = 0;
+	endFrame = 0;
 	currentFrame = 0;
-	frameDelay = 0;
-	animTimer = 0;
-	visible = true;
-	animComplete = true;
+	frameDelay = 1.0;               // default to 1 second per frame of animation
+	animTimer = 0.0;
+	visible = true;                 // the image is visible
+	loop = false;                    // loop frames
+	animComplete = false;
+	graphics = NULL;                // link to graphics system
+	colorFilter = graphicsNS::WHITE; // WHITE for no change
 }
 
 Image::~Image() 
@@ -45,7 +44,8 @@ Image::~Image()
 // number of columns in texture (1 to n) (0 same as 1)
 // pointer to TextureManager
 //=============================================================================
-bool Image::initialize(Graphics* g, int width, int height, int ncols, TextureManager* textureM)
+bool Image::initialize(Graphics* g, int width, int height, int ncols, 
+						TextureManager* textureM)
 {
 	try {
 		graphics = g;

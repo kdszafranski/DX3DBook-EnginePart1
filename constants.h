@@ -19,7 +19,7 @@
 //=============================================================================
 
 // graphic images
-const char SHIP_IMAGE[] = "images\\nebula-bg-game.png";   // spaceship
+const char NEBULA_IMAGE[] = "images\\orion.jpg";
 
 
 // window

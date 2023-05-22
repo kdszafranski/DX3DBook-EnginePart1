@@ -27,7 +27,7 @@ TextureManager::~TextureManager()
 // Parameters: pointers to graphics object and filename
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool TextureManager::initialize(Graphics* g, const char* f)
+bool TextureManager::initialize(Graphics *g, const char *f)
 {
 	try {
 		graphics = g;	// the graphics object

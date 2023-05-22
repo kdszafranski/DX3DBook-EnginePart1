@@ -118,7 +118,6 @@ void Graphics::initD3Dpp()
     }
 }
 
-
 HRESULT Graphics::loadTexture(const char* filename, COLOR_ARGB transcolor,
     UINT& width, UINT& height, LP_TEXTURE& texture)
 {
@@ -135,19 +134,17 @@ HRESULT Graphics::loadTexture(const char* filename, COLOR_ARGB transcolor,
 
         // Get width and height from file
         result = D3DXGetImageInfoFromFile(filename, &info);
-        if (result != D3D_OK) {
+        if (result != D3D_OK)
             return result;
-        }
-
         width = info.Width;
         height = info.Height;
 
         // Create the new texture by loading from file
-        result = D3DXCreateTextureFromFileEx (
+        result = D3DXCreateTextureFromFileEx(
             device3d,           //3D device
             filename,           //image filename
-            width,         //texture width
-            height,        //texture height
+            info.Width,         //texture width
+            info.Height,        //texture height
             1,                  //mip-map levels (1 for no chain)
             0,                  //usage
             D3DFMT_UNKNOWN,     //surface format (default)
@@ -167,51 +164,61 @@ HRESULT Graphics::loadTexture(const char* filename, COLOR_ARGB transcolor,
     return result;
 }
 
-// spriteData is by ref, so we're adjusting the non-local data
+//=============================================================================
+// Draw the sprite described in SpriteData structure
+// Color is optional, it is applied like a filter, WHITE is default (no change)
+// Pre : sprite->Begin() is called
+// Post: sprite->End() is called
+// spriteData.rect defines the portion of spriteData.texture to draw
+//   spriteData.rect.right must be right edge + 1
+//   spriteData.rect.bottom must be bottom edge + 1
+//=============================================================================
 void Graphics::drawSprite(const SpriteData& spriteData, COLOR_ARGB color)
 {
-    if (spriteData.texture == NULL) {
+    if (spriteData.texture == NULL)      // if no texture
         return;
-    }
 
-    // center of the sprite
-    D3DXVECTOR2 spriteCenter = D3DXVECTOR2(
-        (float)(spriteData.width / 2 * spriteData.scale),
-        (float)(spriteData.height / 2 * spriteData.scale)
-        );
-
-    // screen position of the sprite
+    // Find center of sprite
+    D3DXVECTOR2 spriteCenter = D3DXVECTOR2((float)(spriteData.width / 2 * spriteData.scale),
+        (float)(spriteData.height / 2 * spriteData.scale));
+    // Screen position of the sprite
     D3DXVECTOR2 translate = D3DXVECTOR2((float)spriteData.x, (float)spriteData.y);
-
-    // scaling of x and y
+    // Scaling X,Y
     D3DXVECTOR2 scaling(spriteData.scale, spriteData.scale);
-
-    if (spriteData.flipHorizontal) {
-        scaling.x *= -1; // flip on x axis
+    if (spriteData.flipHorizontal)  // if flip horizontal
+    {
+        scaling.x *= -1;            // negative X scale to flip
+        // Get center of flipped image.
         spriteCenter.x -= (float)(spriteData.width * spriteData.scale);
+        // Flip occurs around left edge, translate right to put
+        // Flipped image in same location as original.
         translate.x += (float)(spriteData.width * spriteData.scale);
     }
-    if (spriteData.flipVertical) {
-        scaling.y *= -1; // flip on y axis
+    if (spriteData.flipVertical)    // if flip vertical
+    {
+        scaling.y *= -1;            // negative Y scale to flip
+        // Get center of flipped image
         spriteCenter.y -= (float)(spriteData.height * spriteData.scale);
+        // Flip occurs around top edge, translate down to put
+        // Flipped image in same location as original.
         translate.y += (float)(spriteData.height * spriteData.scale);
     }
-
-    // create a matrix to rotate, scale, and position our sprite
+    // Create a matrix to rotate, scale and position our sprite
     D3DXMATRIX matrix;
     D3DXMatrixTransformation2D(
-        &matrix,        // the matrix address (ref?) passed in
-        NULL,           // keep origin at top left when scaling
-        0.0f,           // scaling rotation
-        &scaling,       // address of value (parameter is a pointer)
-        &spriteCenter,  // address of value ... ditto
-        (float)spriteData.angle,
-        &translate
-    );
+        &matrix,                // the matrix
+        NULL,                   // keep origin at top left when scaling
+        0.0f,                   // no scaling rotation
+        &scaling,               // scale amount
+        &spriteCenter,          // rotation center
+        (float)(spriteData.angle),  // rotation angle
+        &translate);            // X,Y location
 
+    // Tell the sprite about the matrix "Hello Neo"
     sprite->SetTransform(&matrix);
-    sprite->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, color);
 
+    // Draw the sprite
+    sprite->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, color);
 }
 
 //=============================================================================
@@ -275,8 +282,12 @@ void Graphics::releaseAll()
 //=============================================================================
 HRESULT Graphics::reset()
 {
+    result = E_FAIL;    // default to fail, replace on success
     initD3Dpp();                        // init D3D presentation parameters
+    sprite->OnLostDevice();
     result = device3d->Reset(&d3dpp);   // attempt to reset graphics device
+
+    sprite->OnResetDevice();
     return result;
 }
 

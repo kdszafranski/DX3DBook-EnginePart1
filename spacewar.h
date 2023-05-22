@@ -19,9 +19,7 @@ class Spacewar : public Game
 private:
     // variables
     TextureManager nebulaTexture;
-    //TextureManager planetTexture;
-    //Image planet;
-    //Image nebula;
+    Image nebula;
 
 public:
     // Constructor

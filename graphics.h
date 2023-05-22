@@ -123,13 +123,14 @@ public:
     //      fullscreen = true for full screen, false for window
     void    initialize(HWND hw, int width, int height, bool fullscreen);
 
-    // Display the offscreen backbuffer to the screen.
-    HRESULT showBackbuffer();
 
     //HRESULT loadTexture(const char*, COLOR_ARGB, UINT, UINT, LP_TEXTURE);
     //HRESULT loadTexture(const char* filename, COLOR_ARGB transparentColor, UINT& width, UINT& height, LP_TEXTURE& texture);
     HRESULT loadTexture(const char* filename, COLOR_ARGB transcolor, UINT& width, UINT& height, LP_TEXTURE& texture);
-    void drawSprite(const SpriteData& spriteData, COLOR_ARGB color);
+
+    // Display the offscreen backbuffer to the screen.
+    HRESULT showBackbuffer();
+
 
     // Checks the adapter to see if it is compatible with the BackBuffer height,
     // width and refresh rate specified in d3dpp. Fills in the pMode structure with
@@ -139,6 +140,9 @@ public:
     //       Returns false if no compatible mode found.
     bool    isAdapterCompatible();
 
+    void drawSprite(const SpriteData &spriteData, 
+                    COLOR_ARGB color = graphicsNS::WHITE);
+    
     // Reset the graphics device.
     HRESULT reset();
 
@@ -195,6 +199,7 @@ public:
     void spriteBegin()
     {
         sprite->Begin(D3DXSPRITE_ALPHABLEND);
+
     }
 
     //=============================================================================
