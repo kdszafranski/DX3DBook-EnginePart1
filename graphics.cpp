@@ -84,6 +84,7 @@ void Graphics::initialize(HWND hw, int w, int h, bool full)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error creating Direct3D device"));
     }
 
+    // load sprite
     if (FAILED(result)) {
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error creating Direct3D sprite"));
     }
@@ -116,6 +117,56 @@ void Graphics::initD3Dpp()
 
     }
 }
+
+
+HRESULT Graphics::loadTexture(const char* filename, COLOR_ARGB transcolor,
+    UINT& width, UINT& height, LP_TEXTURE& texture)
+{
+    // The struct for reading file info
+    D3DXIMAGE_INFO info;
+    result = E_FAIL;
+
+    try {
+        if (filename == NULL)
+        {
+            texture = NULL;
+            return D3DERR_INVALIDCALL;
+        }
+
+        // Get width and height from file
+        result = D3DXGetImageInfoFromFile(filename, &info);
+        if (result != D3D_OK) {
+            return result;
+        }
+
+        width = info.Width;
+        height = info.Height;
+
+        // Create the new texture by loading from file
+        result = D3DXCreateTextureFromFileEx (
+            device3d,           //3D device
+            filename,           //image filename
+            width,         //texture width
+            height,        //texture height
+            1,                  //mip-map levels (1 for no chain)
+            0,                  //usage
+            D3DFMT_UNKNOWN,     //surface format (default)
+            D3DPOOL_DEFAULT,    //memory class for the texture
+            D3DX_DEFAULT,       //image filter
+            D3DX_DEFAULT,       //mip filter
+            transcolor,         //color key for transparency
+            &info,              //bitmap file info (from loaded file)
+            NULL,               //color palette
+            &texture);         //destination texture
+
+    }
+    catch (...)
+    {
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error in Graphics::loadTexture"));
+    }
+    return result;
+}
+
 
 //=============================================================================
 // Display the backbuffer
