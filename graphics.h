@@ -34,6 +34,55 @@
 #define SETCOLOR_ARGB(a,r,g,b) \
     ((COLOR_ARGB)((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)))
 
+
+namespace graphicsNS
+{
+    // Some common colors
+    // ARGB numbers range from 0 through 255
+    // A = Alpha channel (transparency where 255 is opaque)
+    // R = Red, G = Green, B = Blue
+    const COLOR_ARGB ORANGE = D3DCOLOR_ARGB(255, 255, 165, 0);
+    const COLOR_ARGB BROWN = D3DCOLOR_ARGB(255, 139, 69, 19);
+    const COLOR_ARGB LTGRAY = D3DCOLOR_ARGB(255, 192, 192, 192);
+    const COLOR_ARGB GRAY = D3DCOLOR_ARGB(255, 128, 128, 128);
+    const COLOR_ARGB OLIVE = D3DCOLOR_ARGB(255, 128, 128, 0);
+    const COLOR_ARGB PURPLE = D3DCOLOR_ARGB(255, 128, 0, 128);
+    const COLOR_ARGB MAROON = D3DCOLOR_ARGB(255, 128, 0, 0);
+    const COLOR_ARGB TEAL = D3DCOLOR_ARGB(255, 0, 128, 128);
+    const COLOR_ARGB GREEN = D3DCOLOR_ARGB(255, 0, 128, 0);
+    const COLOR_ARGB NAVY = D3DCOLOR_ARGB(255, 0, 0, 128);
+    const COLOR_ARGB WHITE = D3DCOLOR_ARGB(255, 255, 255, 255);
+    const COLOR_ARGB YELLOW = D3DCOLOR_ARGB(255, 255, 255, 0);
+    const COLOR_ARGB MAGENTA = D3DCOLOR_ARGB(255, 255, 0, 255);
+    const COLOR_ARGB RED = D3DCOLOR_ARGB(255, 255, 0, 0);
+    const COLOR_ARGB CYAN = D3DCOLOR_ARGB(255, 0, 255, 255);
+    const COLOR_ARGB LIME = D3DCOLOR_ARGB(255, 0, 255, 0);
+    const COLOR_ARGB BLUE = D3DCOLOR_ARGB(255, 0, 0, 255);
+    const COLOR_ARGB BLACK = D3DCOLOR_ARGB(255, 0, 0, 0);
+    const COLOR_ARGB FILTER = D3DCOLOR_ARGB(0, 0, 0, 0);  // use to specify drawing with colorFilter
+    const COLOR_ARGB ALPHA25 = D3DCOLOR_ARGB(64, 255, 255, 255);  // AND with color to get 25% alpha
+    const COLOR_ARGB ALPHA50 = D3DCOLOR_ARGB(128, 255, 255, 255);  // AND with color to get 50% alpha
+    const COLOR_ARGB BACK_COLOR = NAVY;                         // background color of game
+
+    enum DISPLAY_MODE { TOGGLE, FULLSCREEN, WINDOW };
+}
+
+// describes a Sprite used by Graphics::drawSprite
+struct SpriteData
+{
+    int width;
+    int height;
+    float x;    // location top left
+    float y;    // location top left
+    float scale;
+    float angle;
+    RECT rect;
+    LP_TEXTURE texture;
+    bool flipHorizontal;
+    bool flipVertical;
+};
+
+
 class Graphics
 {
 private:
@@ -80,6 +129,7 @@ public:
     //HRESULT loadTexture(const char*, COLOR_ARGB, UINT, UINT, LP_TEXTURE);
     //HRESULT loadTexture(const char* filename, COLOR_ARGB transparentColor, UINT& width, UINT& height, LP_TEXTURE& texture);
     HRESULT loadTexture(const char* filename, COLOR_ARGB transcolor, UINT& width, UINT& height, LP_TEXTURE& texture);
+    void drawSprite(const SpriteData& spriteData, COLOR_ARGB color);
 
     // Checks the adapter to see if it is compatible with the BackBuffer height,
     // width and refresh rate specified in d3dpp. Fills in the pMode structure with

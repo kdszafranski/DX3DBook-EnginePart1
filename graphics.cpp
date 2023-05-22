@@ -167,6 +167,52 @@ HRESULT Graphics::loadTexture(const char* filename, COLOR_ARGB transcolor,
     return result;
 }
 
+// spriteData is by ref, so we're adjusting the non-local data
+void Graphics::drawSprite(const SpriteData& spriteData, COLOR_ARGB color)
+{
+    if (spriteData.texture == NULL) {
+        return;
+    }
+
+    // center of the sprite
+    D3DXVECTOR2 spriteCenter = D3DXVECTOR2(
+        (float)(spriteData.width / 2 * spriteData.scale),
+        (float)(spriteData.height / 2 * spriteData.scale)
+        );
+
+    // screen position of the sprite
+    D3DXVECTOR2 translate = D3DXVECTOR2((float)spriteData.x, (float)spriteData.y);
+
+    // scaling of x and y
+    D3DXVECTOR2 scaling(spriteData.scale, spriteData.scale);
+
+    if (spriteData.flipHorizontal) {
+        scaling.x *= -1; // flip on x axis
+        spriteCenter.x -= (float)(spriteData.width * spriteData.scale);
+        translate.x += (float)(spriteData.width * spriteData.scale);
+    }
+    if (spriteData.flipVertical) {
+        scaling.y *= -1; // flip on y axis
+        spriteCenter.y -= (float)(spriteData.height * spriteData.scale);
+        translate.y += (float)(spriteData.height * spriteData.scale);
+    }
+
+    // create a matrix to rotate, scale, and position our sprite
+    D3DXMATRIX matrix;
+    D3DXMatrixTransformation2D(
+        &matrix,        // the matrix address (ref?) passed in
+        NULL,           // keep origin at top left when scaling
+        0.0f,           // scaling rotation
+        &scaling,       // address of value (parameter is a pointer)
+        &spriteCenter,  // address of value ... ditto
+        (float)spriteData.angle,
+        &translate
+    );
+
+    sprite->SetTransform(&matrix);
+    sprite->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, color);
+
+}
 
 //=============================================================================
 // Display the backbuffer
