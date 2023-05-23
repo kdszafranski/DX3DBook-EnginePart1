@@ -106,23 +106,31 @@ void Spacewar::update()
 }
 
 void Spacewar::handleInput() {
-    // move ship
+    // move right
     if (input->isKeyDown(SHIP_RIGHT_KEY)) {
-        // move right
         ship.flipHorizontal(false);
-        ship.setX(ship.getX() + frameTime * SHIP_SPEED);
+        velocityX += frameTime * SHIP_SPEED;
+        
     }
+    // move left
     if (input->isKeyDown(SHIP_LEFT_KEY)) {
-        // move right
         ship.flipHorizontal(true);
-        ship.setX(ship.getX() - frameTime * SHIP_SPEED);
+        velocityX -= frameTime * SHIP_SPEED;
     }
+
+    if (velocityX > MAX_VELOCITY) {
+        velocityX = MAX_VELOCITY; // hold on there, ranger
+    }
+        
+    // keep moving
+    ship.setX(ship.getX() + frameTime * velocityX);
+
+    // move up
     if (input->isKeyDown(SHIP_DOWN_KEY)) {
-        // move up
         ship.setY(ship.getY() + frameTime * SHIP_SPEED);
     }
+    // move down
     if (input->isKeyDown(SHIP_UP_KEY)) {
-        // move up
         ship.setY(ship.getY() - frameTime * SHIP_SPEED);
     }
 }
