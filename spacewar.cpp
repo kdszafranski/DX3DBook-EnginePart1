@@ -97,8 +97,22 @@ void Spacewar::update()
     //ship.setScale(ship.getScale() - frameTime * SHIP_SCALE_RATE);
     
     // move ship
-    ship.setX(ship.getX() + frameTime * SHIP_SPEED);
-    //ship.setY(ship.getY() + frameTime * SHIP_SPEED);
+    if (input->isKeyDown(SHIP_RIGHT_KEY)) {
+        // move right
+        ship.setX(ship.getX() + frameTime * SHIP_SPEED);
+    }
+    if (input->isKeyDown(SHIP_LEFT_KEY)) {
+        // move right
+        ship.setX(ship.getX() - frameTime * SHIP_SPEED);
+    }
+    if (input->isKeyDown(SHIP_DOWN_KEY)) {
+        // move up
+        ship.setY(ship.getY() + frameTime * SHIP_SPEED);
+    }
+    if (input->isKeyDown(SHIP_UP_KEY)) {
+        // move up
+        ship.setY(ship.getY() - frameTime * SHIP_SPEED);
+    }
 
     // check edge bounds
     wrapScreenEdge();

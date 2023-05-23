@@ -66,10 +66,12 @@ const float SHIP_SPEED = 150;
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
 // it would be possible to save and restore key mappings from a data file.
-const UCHAR ESC_KEY      = VK_ESCAPE;   // escape key
-const UCHAR ALT_KEY      = VK_MENU;     // Alt key
-const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
-
-
+const UCHAR ESC_KEY = VK_ESCAPE;       // escape key
+const UCHAR ALT_KEY = VK_MENU;         // Alt key
+const UCHAR ENTER_KEY = VK_RETURN;       // Enter key
+const UCHAR SHIP_LEFT_KEY = VK_LEFT;     // left arrow
+const UCHAR SHIP_RIGHT_KEY = VK_RIGHT;    // right arrow
+const UCHAR SHIP_UP_KEY = VK_UP;       // up arrow
+const UCHAR SHIP_DOWN_KEY = VK_DOWN;     // down arrow
 
 #endif
