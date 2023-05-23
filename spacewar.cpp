@@ -30,14 +30,26 @@ void Spacewar::initialize(HWND hwnd)
     Game::initialize(hwnd); // throws GameError
 
     // nebula texture
-    if (!nebulaTexture.initialize(graphics,NEBULA_IMAGE))
+    if (!nebulaTexture.initialize(graphics,NEBULA_PATH))
+    {
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula texture"));
-
-
+    }
     // nebula
     if (!nebula.initialize(graphics,0,0,0,&nebulaTexture))
-        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula"));
+    {
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula image"));
+    }
 
+     // planet texture
+    if (!planetTexture.initialize(graphics,PLANET_PATH))
+    {
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet texture"));
+    }
+    // planet
+    if (!planet.initialize(graphics,0,0,0,&planetTexture))
+    {
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet image"));
+    }
 
 
     return;
@@ -105,6 +117,7 @@ void Spacewar::render()
     try {
         graphics->spriteBegin();
         nebula.draw();
+        planet.draw();
         graphics->spriteEnd();
     }
     catch (...) {

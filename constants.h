@@ -31,7 +31,8 @@
 //=============================================================================
 
 // graphic images
-const char NEBULA_IMAGE[] = "pictures\\nebula-bg-game.png";
+const char NEBULA_PATH[] = "pictures\\nebula-bg-game.png";
+const char PLANET_PATH[] = "pictures\\planet.png";
 
 
 // window

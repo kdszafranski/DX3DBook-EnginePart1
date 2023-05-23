@@ -20,6 +20,8 @@ private:
     // variables
     TextureManager nebulaTexture;
     Image nebula;
+    TextureManager planetTexture;
+    Image planet;
 
 public:
     // Constructor
