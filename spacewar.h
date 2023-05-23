@@ -19,9 +19,11 @@ class Spacewar : public Game
 private:
     // variables
     TextureManager nebulaTexture;
-    Image nebula;
     TextureManager planetTexture;
+    TextureManager shipTex;
+    Image nebula;
     Image planet;
+    Image ship;
 
 public:
     // Constructor
@@ -32,6 +34,7 @@ public:
 
     // Initialize the game
     void initialize(HWND hwnd);
+    void initSprites(); // helper fn
     void update();      // must override pure virtual from Game
     void CheckForExit(); // helper to handle exit inputs
     void ai();          // "

@@ -30,9 +30,10 @@
 //                  Constants
 //=============================================================================
 
-// graphic images
+// graphic files
 const char NEBULA_PATH[] = "pictures\\nebula-bg-game.png";
 const char PLANET_PATH[] = "pictures\\planet.png";
+const char SHIP_PATH[] = "pictures\\ship.png";
 
 
 // window
@@ -48,6 +49,12 @@ const float FRAME_RATE  = 200.0f;               // the target frame rate (frames
 const float MIN_FRAME_RATE = 10.0f;             // the minimum frame rate
 const float MIN_FRAME_TIME = 1.0f/FRAME_RATE;   // minimum desired time for 1 frame
 const float MAX_FRAME_TIME = 1.0f/MIN_FRAME_RATE; // maximum time used in calculations
+
+// ship art has multiple frames
+const UINT SHIP_WIDTH = 32;
+const UINT SHIP_HEIGHT = 32;
+const UINT SHIP_COLS = 2;
+
 
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used

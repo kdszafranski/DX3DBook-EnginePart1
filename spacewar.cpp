@@ -29,24 +29,33 @@ void Spacewar::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
 
+    initSprites();
+
+    return;
+}
+
+//=============================================================================
+// Initializes all the game sprites from textures
+//=============================================================================
+void Spacewar::initSprites() {
     // nebula texture
-    if (!nebulaTexture.initialize(graphics,NEBULA_PATH))
+    if (!nebulaTexture.initialize(graphics, NEBULA_PATH))
     {
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula texture"));
     }
     // nebula
-    if (!nebula.initialize(graphics,0,0,0,&nebulaTexture))
+    if (!nebula.initialize(graphics, 0, 0, 0, &nebulaTexture))
     {
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula image"));
     }
 
-     // planet texture
-    if (!planetTexture.initialize(graphics,PLANET_PATH))
+    // planet texture
+    if (!planetTexture.initialize(graphics, PLANET_PATH))
     {
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet texture"));
     }
     // planet
-    if (!planet.initialize(graphics,0,0,0,&planetTexture))
+    if (!planet.initialize(graphics, 0, 0, 0, &planetTexture))
     {
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet image"));
     }
@@ -55,7 +64,20 @@ void Spacewar::initialize(HWND hwnd)
     planet.setX(GAME_WIDTH * 0.5f - planet.getWidth() * 0.5f);
     planet.setY(GAME_HEIGHT * 0.5f - planet.getHeight() * 0.5f);
 
-    return;
+    // ship texture
+    if (!shipTex.initialize(graphics, SHIP_PATH))
+    {
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship texture"));
+    }
+    // ship has multiple frames, start with upper-left frame
+    if (!ship.initialize(graphics, SHIP_WIDTH, SHIP_HEIGHT, SHIP_COLS, &shipTex))
+    {
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ship image"));
+    }
+    // start above and left of planet
+    ship.setX(GAME_WIDTH / 4);
+    ship.setY(GAME_HEIGHT / 4);
+
 }
 
 //=============================================================================
@@ -121,6 +143,7 @@ void Spacewar::render()
         graphics->spriteBegin();
         nebula.draw();
         planet.draw();
+        ship.draw();
         graphics->spriteEnd();
     }
     catch (...) {
