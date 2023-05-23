@@ -99,40 +99,51 @@ void Spacewar::update()
     ship.update(frameTime);
  
     // handle input controls
-    handleInput();   
+    handleInputAndMomentum();   
 
     // check edge bounds
     wrapScreenEdge();
 }
 
-void Spacewar::handleInput() {
+//=============================================================================
+// Handle input, flipping the sprite and velocity/momentum
+//=============================================================================
+void Spacewar::handleInputAndMomentum() {
     // move right
     if (input->isKeyDown(SHIP_RIGHT_KEY)) {
         ship.flipHorizontal(false);
-        velocityX += frameTime * SHIP_SPEED;
-        
+        velocityX += frameTime * SHIP_SPEED;        
     }
     // move left
     if (input->isKeyDown(SHIP_LEFT_KEY)) {
         ship.flipHorizontal(true);
         velocityX -= frameTime * SHIP_SPEED;
     }
-
-    if (velocityX > MAX_VELOCITY) {
-        velocityX = MAX_VELOCITY; // hold on there, ranger
-    }
-        
-    // keep moving
-    ship.setX(ship.getX() + frameTime * velocityX);
-
     // move up
     if (input->isKeyDown(SHIP_DOWN_KEY)) {
-        ship.setY(ship.getY() + frameTime * SHIP_SPEED);
+        velocityY += frameTime * SHIP_SPEED;
     }
     // move down
     if (input->isKeyDown(SHIP_UP_KEY)) {
-        ship.setY(ship.getY() - frameTime * SHIP_SPEED);
+        velocityY -= frameTime * SHIP_SPEED;
     }
+
+    // keep our velocity within limits
+    if (velocityX > MAX_VELOCITY)
+        velocityX = MAX_VELOCITY; // hold on there, ranger
+    
+    if (velocityX < -MAX_VELOCITY)
+        velocityX = -MAX_VELOCITY;
+    // limit Y velocity
+    if (velocityY > MAX_VELOCITY)
+        velocityY = MAX_VELOCITY;
+    
+    if (velocityY < -MAX_VELOCITY)
+        velocityY = -MAX_VELOCITY;
+
+    // keep moving
+    ship.setX(ship.getX() + frameTime * velocityX);
+    ship.setY(ship.getY() + frameTime * velocityY);
 }
 
 void Spacewar::wrapScreenEdge() {

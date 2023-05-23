@@ -45,7 +45,7 @@ public:
     void render();      // "
     void releaseAll();
     void resetAll();
-    void handleInput();
+    void handleInputAndMomentum();
 };
 
 #endif
