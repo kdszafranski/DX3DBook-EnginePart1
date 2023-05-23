@@ -80,7 +80,7 @@ void Spacewar::initSprites() {
     ship.setFrames(SHIP_START_FRAME, SHIP_END_FRAME);
     ship.setCurrentFrame(SHIP_START_FRAME);
     ship.setFrameDelay(SHIP_ANIM_DELAY);
-    ship.setDegrees(45.0f);
+    //ship.setDegrees(45.0f);
 
 }
 
@@ -93,16 +93,18 @@ void Spacewar::update()
     CheckForExit();
     // update all game objects
     ship.update(frameTime);
-    ship.setDegrees(ship.getDegrees() + frameTime * SHIP_ROTATION_RATE);
+    //ship.setDegrees(ship.getDegrees() + frameTime * SHIP_ROTATION_RATE);
     //ship.setScale(ship.getScale() - frameTime * SHIP_SCALE_RATE);
     
     // move ship
     if (input->isKeyDown(SHIP_RIGHT_KEY)) {
         // move right
+        ship.flipHorizontal(false);
         ship.setX(ship.getX() + frameTime * SHIP_SPEED);
     }
     if (input->isKeyDown(SHIP_LEFT_KEY)) {
         // move right
+        ship.flipHorizontal(true);
         ship.setX(ship.getX() - frameTime * SHIP_SPEED);
     }
     if (input->isKeyDown(SHIP_DOWN_KEY)) {
