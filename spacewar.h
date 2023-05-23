@@ -24,6 +24,8 @@ private:
     Image nebula;
     Image planet;
     Image ship;
+    float velocityX;
+    float velocityY;
 
 public:
     // Constructor
@@ -43,6 +45,7 @@ public:
     void render();      // "
     void releaseAll();
     void resetAll();
+    void handleInput();
 };
 
 #endif

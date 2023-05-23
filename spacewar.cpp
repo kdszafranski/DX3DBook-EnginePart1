@@ -11,7 +11,10 @@
 // Constructor
 //=============================================================================
 Spacewar::Spacewar()
-{}
+{
+    velocityX = 0;
+    velocityY = 0;
+}
 
 //=============================================================================
 // Destructor
@@ -91,11 +94,18 @@ void Spacewar::update()
 {
     // check if we want to exit
     CheckForExit();
-    // update all game objects
+
+    // update position of all game objects
     ship.update(frameTime);
-    //ship.setDegrees(ship.getDegrees() + frameTime * SHIP_ROTATION_RATE);
-    //ship.setScale(ship.getScale() - frameTime * SHIP_SCALE_RATE);
-    
+ 
+    // handle input controls
+    handleInput();   
+
+    // check edge bounds
+    wrapScreenEdge();
+}
+
+void Spacewar::handleInput() {
     // move ship
     if (input->isKeyDown(SHIP_RIGHT_KEY)) {
         // move right
@@ -115,9 +125,6 @@ void Spacewar::update()
         // move up
         ship.setY(ship.getY() - frameTime * SHIP_SPEED);
     }
-
-    // check edge bounds
-    wrapScreenEdge();
 }
 
 void Spacewar::wrapScreenEdge() {
