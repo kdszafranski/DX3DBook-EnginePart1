@@ -12,6 +12,7 @@ Graphics::Graphics()
 {
     direct3d = NULL;
     device3d = NULL;
+    sprite = NULL;
     fullscreen = false;
     width = GAME_WIDTH;    // width & height are replaced in initialize()
     height = GAME_HEIGHT;
@@ -24,6 +25,16 @@ Graphics::Graphics()
 Graphics::~Graphics()
 {
     releaseAll();
+}
+
+//=============================================================================
+// Release all
+//=============================================================================
+void Graphics::releaseAll()
+{
+    SAFE_RELEASE(sprite);
+    SAFE_RELEASE(device3d);
+    SAFE_RELEASE(direct3d);
 }
 
 //=============================================================================
@@ -82,10 +93,11 @@ void Graphics::initialize(HWND hw, int w, int h, bool full)
 
     if (FAILED(result)) {
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error creating Direct3D device"));
-    }
-
-    // load sprite
-    if (FAILED(result)) {
+ 
+    // big deal!
+    result = D3DXCreateSprite(device3d, &sprite);
+	
+    if (FAILED(result))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error creating Direct3D sprite"));
     }
  
@@ -165,70 +177,6 @@ HRESULT Graphics::loadTexture(const char* filename, COLOR_ARGB transcolor,
 }
 
 //=============================================================================
-// Draw the sprite described in SpriteData structure
-// Color is optional, it is applied like a filter, WHITE is default (no change)
-// Pre : sprite->Begin() is called
-// Post: sprite->End() is called
-// spriteData.rect defines the portion of spriteData.texture to draw
-//   spriteData.rect.right must be right edge + 1
-//   spriteData.rect.bottom must be bottom edge + 1
-//=============================================================================
-void Graphics::drawSprite(const SpriteData& spriteData, COLOR_ARGB color)
-{
-    if (spriteData.texture == NULL)      // if no texture
-        return;
-
-    // Find center of sprite
-    D3DXVECTOR2 spriteCenter = D3DXVECTOR2(
-        (float)(spriteData.width / 2 * spriteData.scale),
-        (float)(spriteData.height / 2 * spriteData.scale)
-    );
-
-    // Screen position of the sprite
-    D3DXVECTOR2 translate = D3DXVECTOR2((float)spriteData.x, (float)spriteData.y);
-    
-    // Scaling X,Y
-    D3DXVECTOR2 scaling(spriteData.scale, spriteData.scale);
-
-    if (spriteData.flipHorizontal)  // if flip horizontal
-    {
-        scaling.x *= -1;            // negative X scale to flip
-        // Get center of flipped image.
-        spriteCenter.x -= (float)(spriteData.width * spriteData.scale);
-        // Flip occurs around left edge, translate right to put
-        // Flipped image in same location as original.
-        translate.x += (float)(spriteData.width * spriteData.scale);
-    }
-
-    if (spriteData.flipVertical)    // if flip vertical
-    {
-        scaling.y *= -1;            // negative Y scale to flip
-        // Get center of flipped image
-        spriteCenter.y -= (float)(spriteData.height * spriteData.scale);
-        // Flip occurs around top edge, translate down to put
-        // Flipped image in same location as original.
-        translate.y += (float)(spriteData.height * spriteData.scale);
-    }
-
-    // Create a matrix to rotate, scale and position our sprite
-    D3DXMATRIX matrix;
-    D3DXMatrixTransformation2D(
-        &matrix,                // the matrix
-        NULL,                   // keep origin at top left when scaling
-        0.0f,                   // no scaling rotation
-        &scaling,               // scale amount
-        &spriteCenter,          // rotation center
-        (float)(spriteData.angle),  // rotation angle
-        &translate);            // X,Y location
-
-    // Tell the sprite about the matrix "Hello Neo"
-    sprite->SetTransform(&matrix);
-
-    // Draw the sprite
-    sprite->Draw(spriteData.texture, &spriteData.rect, NULL, NULL, color);
-}
-
-//=============================================================================
 // Display the backbuffer
 //=============================================================================
 HRESULT Graphics::showBackbuffer()
@@ -265,6 +213,63 @@ bool Graphics::isAdapterCompatible()
 }
 
 //=============================================================================
+// Draw the sprite described in SpriteData structure
+// Color is optional, it is applied like a filter, WHITE is default (no change)
+// Pre : sprite->Begin() is called
+// Post: sprite->End() is called
+// spriteData.rect defines the portion of spriteData.texture to draw
+//   spriteData.rect.right must be right edge + 1
+//   spriteData.rect.bottom must be bottom edge + 1
+//=============================================================================
+void Graphics::drawSprite(const SpriteData &spriteData, COLOR_ARGB color)
+{
+    if(spriteData.texture == NULL)      // if no texture
+        return;
+
+    // Find center of sprite
+    D3DXVECTOR2 spriteCenter=D3DXVECTOR2((float)(spriteData.width/2*spriteData.scale),
+                                        (float)(spriteData.height/2*spriteData.scale));
+    // Screen position of the sprite
+    D3DXVECTOR2 translate=D3DXVECTOR2((float)spriteData.x,(float)spriteData.y);
+    // Scaling X,Y
+    D3DXVECTOR2 scaling(spriteData.scale,spriteData.scale);
+    if (spriteData.flipHorizontal)  // if flip horizontal
+    {
+        scaling.x *= -1;            // negative X scale to flip
+        // Get center of flipped image.
+        spriteCenter.x -= (float)(spriteData.width*spriteData.scale);
+        // Flip occurs around left edge, translate right to put
+        // Flipped image in same location as original.
+        translate.x += (float)(spriteData.width*spriteData.scale);
+    }
+    if (spriteData.flipVertical)    // if flip vertical
+    {
+        scaling.y *= -1;            // negative Y scale to flip
+        // Get center of flipped image
+        spriteCenter.y -= (float)(spriteData.height*spriteData.scale);
+        // Flip occurs around top edge, translate down to put
+        // Flipped image in same location as original.
+        translate.y += (float)(spriteData.height*spriteData.scale);
+    }
+    // Create a matrix to rotate, scale and position our sprite
+    D3DXMATRIX matrix;
+    D3DXMatrixTransformation2D(
+        &matrix,                // the matrix
+        NULL,                   // keep origin at top left when scaling
+        0.0f,                   // no scaling rotation
+        &scaling,               // scale amount
+        &spriteCenter,          // rotation center
+        (float)(spriteData.angle),  // rotation angle
+        &translate);            // X,Y location
+
+    // Tell the sprite about the matrix "Hello Neo"
+    sprite->SetTransform(&matrix);
+
+    // Draw the sprite
+    sprite->Draw(spriteData.texture,&spriteData.rect,NULL,NULL,color);
+}
+
+//=============================================================================
 // Test for lost device
 //=============================================================================
 HRESULT Graphics::getDeviceState()
@@ -274,15 +279,6 @@ HRESULT Graphics::getDeviceState()
         return  result;
     result = device3d->TestCooperativeLevel(); 
     return result;
-}
-
-//=============================================================================
-// Release all
-//=============================================================================
-void Graphics::releaseAll()
-{
-    safeRelease(device3d);
-    safeRelease(direct3d);
 }
 
 //=============================================================================

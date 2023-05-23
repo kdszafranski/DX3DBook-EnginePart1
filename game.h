@@ -7,8 +7,6 @@
 #define _GAME_H                 // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
-class Game;
-
 #include <windows.h>
 #include <Mmsystem.h>
 #include "graphics.h"

@@ -123,10 +123,13 @@ public:
     //      fullscreen = true for full screen, false for window
     void    initialize(HWND hw, int width, int height, bool fullscreen);
 
-
-    //HRESULT loadTexture(const char*, COLOR_ARGB, UINT, UINT, LP_TEXTURE);
-    //HRESULT loadTexture(const char* filename, COLOR_ARGB transparentColor, UINT& width, UINT& height, LP_TEXTURE& texture);
-    HRESULT loadTexture(const char* filename, COLOR_ARGB transcolor, UINT& width, UINT& height, LP_TEXTURE& texture);
+    // Load the texture into default D3D memory (normal texture use)
+    // For internal engine use only. Use the TextureManager class to load game textures.
+    // Pre: filename = name of texture file.
+    //      transcolor = transparent color
+    // Post: width and height = size of texture
+    //       texture points to texture
+    HRESULT loadTexture(const char * filename, COLOR_ARGB transcolor, UINT &width, UINT &height, LP_TEXTURE &texture);
 
     // Display the offscreen backbuffer to the screen.
     HRESULT showBackbuffer();
@@ -140,9 +143,15 @@ public:
     //       Returns false if no compatible mode found.
     bool    isAdapterCompatible();
 
-    void drawSprite(const SpriteData &spriteData, 
-                    COLOR_ARGB color = graphicsNS::WHITE);
-    
+    // Draw the sprite described in SpriteData structure.
+    // color is optional, it is applied as a filter, WHITE is default (no change).
+    // Creates a sprite Begin/End pair.
+    // Pre: spriteData.rect defines the portion of spriteData.texture to draw
+    //      spriteData.rect.right must be right edge + 1
+    //      spriteData.rect.bottom must be bottom edge + 1
+    void    drawSprite(const SpriteData &spriteData,           // sprite to draw
+                       COLOR_ARGB color = graphicsNS::WHITE);      // default to white color filter (no change)
+
     // Reset the graphics device.
     HRESULT reset();
 
@@ -152,6 +161,9 @@ public:
 
     // Return device3d.
     LP_3DDEVICE get3Ddevice()   { return device3d; }
+
+    // Return sprite
+    LP_SPRITE   getSprite()     { return sprite; }
 
     // Return handle to device context (window).
     HDC getDC()                 { return GetDC(hwnd); }
