@@ -30,10 +30,7 @@ Image::Image()
 	colorFilter = graphicsNS::WHITE; // WHITE for no change
 }
 
-Image::~Image() 
-{
-	// release stuff?
-}
+Image::~Image() { }
 
 //=============================================================================
 // Initialize the Image.
@@ -78,7 +75,10 @@ bool Image::initialize(Graphics* g, int width, int height, int ncols,
 		// bottom edge + 1
 		spriteData.rect.bottom = spriteData.rect.top + spriteData.height;
 	}
-	catch (...) { return false; }
+	catch (...) { 
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error in Image::init"));
+		return false; 
+	}
 
 	initialized = true;
 	return true;
@@ -94,8 +94,10 @@ void Image::draw(COLOR_ARGB color)
 {
 	if (!visible || graphics == NULL)
 		return;
+
 	// get fresh texture incase onReset() was called
 	spriteData.texture = textureManager->getTexture();
+	
 	if (color == graphicsNS::FILTER)                     // if draw with filter
 		graphics->drawSprite(spriteData, colorFilter);  // use colorFilter
 	else

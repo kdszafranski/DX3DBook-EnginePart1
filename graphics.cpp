@@ -179,12 +179,17 @@ void Graphics::drawSprite(const SpriteData& spriteData, COLOR_ARGB color)
         return;
 
     // Find center of sprite
-    D3DXVECTOR2 spriteCenter = D3DXVECTOR2((float)(spriteData.width / 2 * spriteData.scale),
-        (float)(spriteData.height / 2 * spriteData.scale));
+    D3DXVECTOR2 spriteCenter = D3DXVECTOR2(
+        (float)(spriteData.width / 2 * spriteData.scale),
+        (float)(spriteData.height / 2 * spriteData.scale)
+    );
+
     // Screen position of the sprite
     D3DXVECTOR2 translate = D3DXVECTOR2((float)spriteData.x, (float)spriteData.y);
+    
     // Scaling X,Y
     D3DXVECTOR2 scaling(spriteData.scale, spriteData.scale);
+
     if (spriteData.flipHorizontal)  // if flip horizontal
     {
         scaling.x *= -1;            // negative X scale to flip
@@ -194,6 +199,7 @@ void Graphics::drawSprite(const SpriteData& spriteData, COLOR_ARGB color)
         // Flipped image in same location as original.
         translate.x += (float)(spriteData.width * spriteData.scale);
     }
+
     if (spriteData.flipVertical)    // if flip vertical
     {
         scaling.y *= -1;            // negative Y scale to flip
@@ -203,6 +209,7 @@ void Graphics::drawSprite(const SpriteData& spriteData, COLOR_ARGB color)
         // Flipped image in same location as original.
         translate.y += (float)(spriteData.height * spriteData.scale);
     }
+
     // Create a matrix to rotate, scale and position our sprite
     D3DXMATRIX matrix;
     D3DXMatrixTransformation2D(
@@ -226,6 +233,7 @@ void Graphics::drawSprite(const SpriteData& spriteData, COLOR_ARGB color)
 //=============================================================================
 HRESULT Graphics::showBackbuffer()
 {
+    result = E_FAIL;
     // Display backbuffer to screen
     result = device3d->Present(NULL, NULL, NULL, NULL);
     return result;

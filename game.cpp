@@ -180,8 +180,7 @@ void Game::run(HWND hwnd)
 
     // calculate elapsed time of last frame, save in frameTime
     QueryPerformanceCounter(&timeEnd);
-    frameTime = (float)(timeEnd.QuadPart - timeStart.QuadPart ) / 
-                (float)timerFreq.QuadPart;
+    frameTime = (float)(timeEnd.QuadPart - timeStart.QuadPart ) / (float)timerFreq.QuadPart;
 
     // Power saving code, requires winmm.lib
     // if not enough time has elapsed for desired frame rate

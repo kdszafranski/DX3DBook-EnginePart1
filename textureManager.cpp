@@ -42,7 +42,10 @@ bool TextureManager::initialize(Graphics *g, const char *f)
 			return false;
 		}
 	}
-	catch (...) { return false; }
+	catch (...) { 
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error in TextureManager::init"));
+		return false; 
+	}
 
 	// all cool, texture loaded
 	initialized = true;

@@ -37,10 +37,6 @@ void Spacewar::initialize(HWND hwnd)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error init nebula image"));
     }
 
-    if (nebula.getHeight() == 800) {
-           
-    }
-
     return;
 }
 
@@ -103,11 +99,15 @@ void Spacewar::render()
     /*LPCSTR temp = input->getTextIn().c_str();
     TextOutA(graphics->getDC(), 10, 10, temp, 20);*/
 
-    //graphics->spriteBegin(); // fails, read exception..? don't know why
-    //// texture and image appear to load fine
+    try {
+        graphics->spriteBegin(); // fails, 
+        nebula.draw();
+        graphics->spriteEnd();
+    }
+    catch (...) {
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error in Graphics::render"));
+    }
 
-    //nebula.draw();
-    //graphics->spriteEnd();
 }
 
 

@@ -198,7 +198,13 @@ public:
     //=============================================================================
     void spriteBegin()
     {
-        sprite->Begin(D3DXSPRITE_ALPHABLEND);
+        try {
+            // D3DXSPRITE_ALPHABLEND
+            sprite->Begin(D3DXSPRITE_BILLBOARD);
+        }
+        catch (...) {
+            throw(GameError(gameErrorNS::FATAL_ERROR, "Error in Graphics::spriteBegin"));
+        }
 
     }
 
