@@ -54,6 +54,9 @@ const float MAX_FRAME_TIME = 1.0f/MIN_FRAME_RATE; // maximum time used in calcul
 const UINT SHIP_WIDTH = 32;
 const UINT SHIP_HEIGHT = 32;
 const UINT SHIP_COLS = 2;
+const UINT SHIP_START_FRAME = 0;
+const UINT SHIP_END_FRAME = 3;
+const float SHIP_ANIM_DELAY = 0.4f;
 
 
 // key mappings
