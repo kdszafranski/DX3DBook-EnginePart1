@@ -57,6 +57,10 @@ const UINT SHIP_COLS = 2;
 const UINT SHIP_START_FRAME = 0;
 const UINT SHIP_END_FRAME = 3;
 const float SHIP_ANIM_DELAY = 0.4f;
+const float SHIP_ROTATION_RATE = 25.0f;
+const float SHIP_SCALE = 1.0f;
+const float SHIP_SCALE_RATE = 0.2f;
+const float SHIP_SPEED = 85;
 
 
 // key mappings

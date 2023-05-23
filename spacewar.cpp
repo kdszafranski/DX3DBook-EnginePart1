@@ -93,6 +93,14 @@ void Spacewar::update()
     CheckForExit();
     // update all game objects
     ship.update(frameTime);
+    ship.setDegrees(ship.getDegrees() + frameTime * SHIP_ROTATION_RATE);
+    //ship.setScale(ship.getScale() - frameTime * SHIP_SCALE_RATE);
+    ship.setX(ship.getX() + frameTime * SHIP_SPEED);
+    if (ship.getX() > GAME_WIDTH) {
+        // off the edge to the right
+        ship.setX((float)-ship.getWidth());
+    }
+
 }
 
 
@@ -114,13 +122,6 @@ void Spacewar::collisions()
 //=============================================================================
 void Spacewar::render()
 {
-    //LPCSTR temp = (LPCSTR)input->getGamepadLeftTrigger(0);
-    //TextOutA(graphics->getDC(), 10, 10, (LPCSTR)temp, 4);
-    
-    // display entered characters, flickers... should be thru D3D
-    /*LPCSTR temp = input->getTextIn().c_str();
-    TextOutA(graphics->getDC(), 10, 10, temp, 20);*/
-
     try {
         graphics->spriteBegin();
         nebula.draw();
@@ -154,6 +155,8 @@ void Spacewar::CheckForExit() {
 void Spacewar::releaseAll()
 {
     nebulaTexture.onLostDevice();
+    planetTexture.onLostDevice();
+    shipTex.onLostDevice();
     
     Game::releaseAll();
     return;
@@ -166,6 +169,8 @@ void Spacewar::releaseAll()
 void Spacewar::resetAll()
 {
     nebulaTexture.onResetDevice();
+    planetTexture.onResetDevice();
+    shipTex.onResetDevice();
 
     Game::resetAll();
     return;
