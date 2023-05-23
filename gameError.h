@@ -8,7 +8,7 @@
 #define _GAMEERROR_H            // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
-class GameError;
+
 
 #include <string>
 #include <exception>
@@ -31,26 +31,26 @@ private:
     std::string message;
 public:
     // default constructor
-    GameError() :errorCode(gameErrorNS::FATAL_ERROR), message("Undefined Error in game.") {}
+    GameError() throw() :errorCode(gameErrorNS::FATAL_ERROR), message("Undefined Error in game.") {}
     // copy constructor
-    GameError(const GameError& e) :std::exception(e), errorCode(e.errorCode), message(e.message) {}
+    GameError(const GameError& e) throw(): std::exception(e), errorCode(e.errorCode), message(e.message) {}
     // constructor with args
-    GameError(int code, const std::string &s) :errorCode(code), message(s) {}
+    GameError(int code, const std::string &s) throw() :errorCode(code), message(s) {}
     // assignment operator
-    GameError& operator= (const GameError& rhs) 
+    GameError& operator= (const GameError& rhs) throw() 
     {
         std::exception::operator=(rhs);
         this->errorCode = rhs.errorCode;
         this->message = rhs.message;
     }
     // destructor
-    virtual ~GameError() {};
+    virtual ~GameError() throw() {};
 
     // override what from base class
-    virtual const char* what() const { return this->getMessage(); }
+    virtual const char* what() const throw() { return this->getMessage(); }
 
-    const char* getMessage() const { return message.c_str(); }
-    int getErrorCode() const { return errorCode; }
+    const char* getMessage() const throw() { return message.c_str(); }
+    int getErrorCode() const throw() { return errorCode; }
 };
 
 #endif

@@ -29,13 +29,16 @@ void Spacewar::initialize(HWND hwnd)
 {
     Game::initialize(hwnd); // throws GameError
 
-     //load and init our images from texture files
-    if (!nebulaTexture.initialize(graphics, NEBULA_IMAGE)) {
-        throw(GameError(gameErrorNS::FATAL_ERROR, "Error init nebula texture"));
-    }
-    if (!nebula.initialize(graphics, 0, 0, 0, &nebulaTexture)) {
-        throw(GameError(gameErrorNS::FATAL_ERROR, "Error init nebula image"));
-    }
+    // nebula texture
+    if (!nebulaTexture.initialize(graphics,NEBULA_IMAGE))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula texture"));
+
+
+    // nebula
+    if (!nebula.initialize(graphics,0,0,0,&nebulaTexture))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing nebula"));
+
+
 
     return;
 }
@@ -45,31 +48,31 @@ void Spacewar::initialize(HWND hwnd)
 //=============================================================================
 void Spacewar::update()
 {
-    // check if we want to exit
-    CheckForExit();
+    //// check if we want to exit
+    //CheckForExit();
 
-    // vibrate gamepad based on trigger input level
-    const BYTE leftTriggerAmount = input->getGamepadLeftTrigger(0);
-    if (leftTriggerAmount > 0) {
-        // BYTE -> WORD 0xFF -> 0xFFFF which is 255 times larger 255 * 255 = 65025
-        // still off a bit. max gamepad motor speed is 65535...
-        input->gamePadVibrateLeft(0, leftTriggerAmount * 255, 1);
-    }
-    
-    // vibrate gamepad based on trigger input level
-    const BYTE rightTriggerAmount = input->getGamepadRightTrigger(0);
-    if (rightTriggerAmount > 0) {
-        input->gamePadVibrateRight(0, rightTriggerAmount * 255, 1);
-    }
+    //// vibrate gamepad based on trigger input level
+    //const BYTE leftTriggerAmount = input->getGamepadLeftTrigger(0);
+    //if (leftTriggerAmount > 0) {
+    //    // BYTE -> WORD 0xFF -> 0xFFFF which is 255 times larger 255 * 255 = 65025
+    //    // still off a bit. max gamepad motor speed is 65535...
+    //    input->gamePadVibrateLeft(0, leftTriggerAmount * 255, 1);
+    //}
+    //
+    //// vibrate gamepad based on trigger input level
+    //const BYTE rightTriggerAmount = input->getGamepadRightTrigger(0);
+    //if (rightTriggerAmount > 0) {
+    //    input->gamePadVibrateRight(0, rightTriggerAmount * 255, 1);
+    //}
 
-    // left click or X button changes bg color to red
-    if (input->getMouseLButton() || input->getGamepadX(0)) {
-        graphics->setBackColor(SETCOLOR_ARGB(255, 128, 0, 0));
-    }
-    // right click or A button changes bg color to yellow
-    if (input->getMouseRButton() || input->getGamepadA(0)) {
-        graphics->setBackColor(SETCOLOR_ARGB(255, 255, 255, 0));
-    }
+    //// left click or X button changes bg color to red
+    //if (input->getMouseLButton() || input->getGamepadX(0)) {
+    //    graphics->setBackColor(SETCOLOR_ARGB(255, 128, 0, 0));
+    //}
+    //// right click or A button changes bg color to yellow
+    //if (input->getMouseRButton() || input->getGamepadA(0)) {
+    //    graphics->setBackColor(SETCOLOR_ARGB(255, 255, 255, 0));
+    //}
 
 }
 
@@ -141,7 +144,8 @@ void Spacewar::releaseAll()
 //=============================================================================
 void Spacewar::resetAll()
 {
-    nebulaTexture.onLostDevice();
+    nebulaTexture.onResetDevice();
+
     Game::resetAll();
     return;
 }
