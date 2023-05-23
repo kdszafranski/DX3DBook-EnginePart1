@@ -51,6 +51,9 @@ void Spacewar::initialize(HWND hwnd)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing planet image"));
     }
 
+    // center planet, uses * 0.5 instead of / 2... performance likely?
+    planet.setX(GAME_WIDTH * 0.5f - planet.getWidth() * 0.5f);
+    planet.setY(GAME_HEIGHT * 0.5f - planet.getHeight() * 0.5f);
 
     return;
 }
