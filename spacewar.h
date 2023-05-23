@@ -27,6 +27,9 @@ private:
     float velocityX;
     float velocityY;
 
+    float radians = 0;
+    float thetaDeg = 0;
+
 public:
     // Constructor
     Spacewar();
@@ -38,6 +41,7 @@ public:
     void initialize(HWND hwnd);
     void initSprites(); // helper fn
     void update();      // must override pure virtual from Game
+    void doCircle();
     void CheckForExit(); // helper to handle exit inputs
     void wrapScreenEdge(); // checks screen bounds
     void ai();          // "
