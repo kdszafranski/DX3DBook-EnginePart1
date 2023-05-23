@@ -67,19 +67,19 @@ namespace graphicsNS
     enum DISPLAY_MODE { TOGGLE, FULLSCREEN, WINDOW };
 }
 
-// describes a Sprite used by Graphics::drawSprite
+// SpriteData: The properties required by Graphics::drawSprite to draw a sprite
 struct SpriteData
 {
-    int width;
-    int height;
-    float x;    // location top left
-    float y;    // location top left
-    float scale;
-    float angle;
-    RECT rect;
-    LP_TEXTURE texture;
-    bool flipHorizontal;
-    bool flipVertical;
+    int         width;      // width of sprite in pixels
+    int         height;     // height of sprite in pixels
+    float       x;          // screen location (top left corner of sprite)
+    float       y;
+    float       scale;      // <1 smaller, >1 bigger
+    float       angle;      // rotation angle in radians
+    RECT        rect;       // used to select an image from a larger texture
+    LP_TEXTURE  texture;    // pointer to texture
+    bool        flipHorizontal; // true to flip sprite horizontally (mirror)
+    bool        flipVertical;   // true to flip sprite vertically
 };
 
 
@@ -212,7 +212,7 @@ public:
     {
         try {
             // D3DXSPRITE_ALPHABLEND
-            sprite->Begin(D3DXSPRITE_BILLBOARD);
+            sprite->Begin(D3DXSPRITE_ALPHABLEND);
         }
         catch (...) {
             throw(GameError(gameErrorNS::FATAL_ERROR, "Error in Graphics::spriteBegin"));

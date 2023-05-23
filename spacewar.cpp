@@ -49,7 +49,7 @@ void Spacewar::initialize(HWND hwnd)
 void Spacewar::update()
 {
     //// check if we want to exit
-    //CheckForExit();
+    CheckForExit();
 
     //// vibrate gamepad based on trigger input level
     //const BYTE leftTriggerAmount = input->getGamepadLeftTrigger(0);
@@ -65,14 +65,14 @@ void Spacewar::update()
     //    input->gamePadVibrateRight(0, rightTriggerAmount * 255, 1);
     //}
 
-    //// left click or X button changes bg color to red
-    //if (input->getMouseLButton() || input->getGamepadX(0)) {
-    //    graphics->setBackColor(SETCOLOR_ARGB(255, 128, 0, 0));
-    //}
-    //// right click or A button changes bg color to yellow
-    //if (input->getMouseRButton() || input->getGamepadA(0)) {
-    //    graphics->setBackColor(SETCOLOR_ARGB(255, 255, 255, 0));
-    //}
+    // left click or X button changes bg color to red
+    if (input->getMouseLButton() || input->getGamepadX(0)) {
+        graphics->setBackColor(SETCOLOR_ARGB(255, 128, 0, 0));
+    }
+    // right click or A button changes bg color to yellow
+    if (input->getMouseRButton() || input->getGamepadA(0)) {
+        graphics->setBackColor(SETCOLOR_ARGB(255, 255, 255, 0));
+    }
 
 }
 
@@ -103,7 +103,7 @@ void Spacewar::render()
     TextOutA(graphics->getDC(), 10, 10, temp, 20);*/
 
     try {
-        graphics->spriteBegin(); // fails, 
+        graphics->spriteBegin();
         nebula.draw();
         graphics->spriteEnd();
     }
