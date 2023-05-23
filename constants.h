@@ -31,15 +31,15 @@
 //=============================================================================
 
 // graphic images
-const char NEBULA_IMAGE[] = "pictures\\orion.jpg";
+const char NEBULA_IMAGE[] = "pictures\\nebula-bg-game.png";
 
 
 // window
 const char CLASS_NAME[] = "Spacewar";
 const char GAME_TITLE[] = "Spacewar Kris";
 const bool FULLSCREEN = false;              // windowed or fullscreen
-const UINT GAME_WIDTH =  680;               // width of game in pixels
-const UINT GAME_HEIGHT = 480;               // height of game in pixels
+const UINT GAME_WIDTH =  800;               // width of game in pixels
+const UINT GAME_HEIGHT = 600;               // height of game in pixels
  
 // game
 const double PI = 3.14159265;
