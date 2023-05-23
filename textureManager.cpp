@@ -56,16 +56,20 @@ bool TextureManager::initialize(Graphics *g, const char *f)
 //=============================================================================
 // Called when graphics device is lost
 //=============================================================================
-// called when graphics device is lost
-void TextureManager::onLostDevice() {
-	if (!initialized) { return; }
-	
-	SAFE_RELEASE(texture);
+void TextureManager::onLostDevice()
+{
+    if (!initialized)
+        return;
+    SAFE_RELEASE(texture);
 }
 
-void TextureManager::onResetDevice() {
-	if (!initialized) { return; }
-
-	graphics->loadTexture(file, TRANSCOLOR, width, height, texture);
+//=============================================================================
+// called when graphics device is reset
+//=============================================================================
+void TextureManager::onResetDevice()
+{
+    if (!initialized)
+        return;
+    graphics->loadTexture(file, TRANSCOLOR, width, height, texture);
 }
 

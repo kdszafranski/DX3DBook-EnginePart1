@@ -2,6 +2,7 @@
 #define _IMAGE_H_
 
 #include "textureManager.h"
+#include "constants.h"
 
 class Image
 {
@@ -36,25 +37,6 @@ public:
 	// destructor
 	virtual ~Image();
 
-    // Initialize Image
-    // Pre: *g = pointer to Graphics object
-    //      width = width of Image in pixels  (0 = use full texture width)
-    //      height = height of Image in pixels (0 = use full texture height)
-    //      ncols = number of columns in texture (1 to n) (0 same as 1)
-    //      *textureM = pointer to TextureManager object
-    virtual bool Image::initialize(Graphics* g, int width, int height,
-        int ncols, TextureManager* textureM);
-
-	// drawing, default color filter is White (no filter)
-	virtual void draw(COLOR_ARGB color = graphicsNS::WHITE);
-	virtual void draw(SpriteData sData, COLOR_ARGB color = graphicsNS::WHITE);
-	
-	// drawing utilities
-	virtual void flipHorizontal(bool flip) { spriteData.flipHorizontal = flip; }
-	virtual void flipVertical(bool flip) { spriteData.flipVertical = flip; }
-
-    // Update the animation. frameTime is used to regulate the speed.
-    virtual void update(float frameTime);
 
     ////////////////////////////////////////
     //           Getter functions         //
@@ -163,11 +145,37 @@ public:
     virtual void setColorFilter(COLOR_ARGB color) { colorFilter = color; }
 
     // Set TextureManager
-    virtual void setTextureManager(TextureManager* textureM)
-    {
-        textureManager = textureM;
-    }
+    virtual void setTextureManager(TextureManager *textureM)
+    { textureManager = textureM; }
 
+    ////////////////////////////////////////
+    //         Other functions            //
+    ////////////////////////////////////////
+
+    // Initialize Image
+    // Pre: *g = pointer to Graphics object
+    //      width = width of Image in pixels  (0 = use full texture width)
+    //      height = height of Image in pixels (0 = use full texture height)
+    //      ncols = number of columns in texture (1 to n) (0 same as 1)
+    //      *textureM = pointer to TextureManager object
+    virtual bool Image::initialize(Graphics *g, int width, int height, 
+                                    int ncols, TextureManager *textureM);
+
+    // Flip image horizontally (mirror)
+    virtual void flipHorizontal(bool flip)  {spriteData.flipHorizontal = flip;}
+
+    // Flip image vertically
+    virtual void flipVertical(bool flip)    {spriteData.flipVertical = flip;}
+
+    // Draw Image using color as filter. Default color is WHITE.
+    virtual void draw(COLOR_ARGB color = graphicsNS::WHITE);
+
+    // Draw this image using the specified SpriteData.
+    //   The current SpriteData.rect is used to select the texture.
+    virtual void draw(SpriteData sd, COLOR_ARGB color = graphicsNS::WHITE); // draw with SpriteData using color as filter
+
+    // Update the animation. frameTime is used to regulate the speed.
+    virtual void update(float frameTime);
 };
 
 

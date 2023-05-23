@@ -1,3 +1,4 @@
+	
 #include "image.h"
 
 Image::Image()
@@ -24,7 +25,7 @@ Image::Image()
 	frameDelay = 1.0;               // default to 1 second per frame of animation
 	animTimer = 0.0;
 	visible = true;                 // the image is visible
-	loop = false;                    // loop frames
+	loop = true;                    // loop frames
 	animComplete = false;
 	graphics = NULL;                // link to graphics system
 	colorFilter = graphicsNS::WHITE; // WHITE for no change
@@ -123,27 +124,33 @@ void Image::draw(SpriteData sd, COLOR_ARGB color)
 		graphics->drawSprite(sd, color);        // use color as filter
 }
 
-void Image::update(float frameTime) {
-	if (endFrame - startFrame > 0)          // if animated sprite
-	{
-		animTimer += frameTime;             // total elapsed time
-		if (animTimer > frameDelay)
-		{
-			animTimer -= frameDelay;
-			currentFrame++;
-			if (currentFrame < startFrame || currentFrame > endFrame)
-			{
-				if (loop == true)            // if looping animation
-					currentFrame = startFrame;
-				else                        // not looping animation
-				{
-					currentFrame = endFrame;
-					animComplete = true;    // animation complete
-				}
-			}
-			setRect();                      // set spriteData.rect
-		}
-	}
+//=============================================================================
+// update
+// typically called once per frame
+// frameTime is used to regulate the speed of movement and animation
+//=============================================================================
+void Image::update(float frameTime)
+{
+    if (endFrame - startFrame > 0)          // if animated sprite
+    {
+        animTimer += frameTime;             // total elapsed time
+        if (animTimer > frameDelay)
+        {
+            animTimer -= frameDelay;
+            currentFrame++;
+            if (currentFrame < startFrame || currentFrame > endFrame)
+            {
+                if(loop == true)            // if looping animation
+                    currentFrame = startFrame;
+                else                        // not looping animation
+                {
+                    currentFrame = endFrame;
+                    animComplete = true;    // animation complete
+                }
+            }
+            setRect();                      // set spriteData.rect
+        }
+    }
 }
 
 //=============================================================================
