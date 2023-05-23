@@ -27,6 +27,9 @@ private:
     float velocityX;
     float velocityY;
 
+    float radians = 0;
+    float thetaDeg = 0;
+
 public:
     // Constructor
     Spacewar();

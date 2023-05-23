@@ -99,7 +99,20 @@ void Spacewar::update()
     ship.update(frameTime);
  
     // handle input controls
-    handleInputAndMomentum();   
+    //handleInputAndMomentum();   
+
+    // circle challenge
+    // move in circle around planet
+    radians += 0.03f;
+    /*
+    Set x to (RADIUS*Sin(ANGLE))
+    Set y to (RADIUS*Cos(ANGLE))
+    */
+    //float speed = 
+
+    // speed here is the radius of the circle
+    ship.setX( GAME_WIDTH/2 - SHIP_WIDTH/2 + cos(radians) * SHIP_SPEED );
+    ship.setY( GAME_HEIGHT/2 - SHIP_HEIGHT/2 + sin(radians) * SHIP_SPEED );
 
     // check edge bounds
     wrapScreenEdge();

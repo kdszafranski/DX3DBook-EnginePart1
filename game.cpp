@@ -179,6 +179,7 @@ void Game::run(HWND hwnd)
         return;
 
     // calculate elapsed time of last frame, save in frameTime
+    QueryPerformanceCounter(&elapsedTime);
     QueryPerformanceCounter(&timeEnd);
     frameTime = (float)(timeEnd.QuadPart - timeStart.QuadPart ) / (float)timerFreq.QuadPart;
 
