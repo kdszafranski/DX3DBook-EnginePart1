@@ -37,6 +37,7 @@ public:
     void initSprites(); // helper fn
     void update();      // must override pure virtual from Game
     void CheckForExit(); // helper to handle exit inputs
+    void wrapScreenEdge(); // checks screen bounds
     void ai();          // "
     void collisions();  // "
     void render();      // "

@@ -95,12 +95,32 @@ void Spacewar::update()
     ship.update(frameTime);
     ship.setDegrees(ship.getDegrees() + frameTime * SHIP_ROTATION_RATE);
     //ship.setScale(ship.getScale() - frameTime * SHIP_SCALE_RATE);
+    
+    // move ship
     ship.setX(ship.getX() + frameTime * SHIP_SPEED);
+    //ship.setY(ship.getY() + frameTime * SHIP_SPEED);
+
+    // check edge bounds
+    wrapScreenEdge();
+}
+
+void Spacewar::wrapScreenEdge() {
+    // left/right bounds wrapping
     if (ship.getX() > GAME_WIDTH) {
         // off the edge to the right
         ship.setX((float)-ship.getWidth());
+    } else if(ship.getX() < -ship.getWidth()) {
+        ship.setX((float)GAME_WIDTH); // top left of image
     }
 
+    // top/bottom bounds wrapping
+    if (ship.getY() > GAME_HEIGHT) {
+        // off the bottom edge, place it at the top
+        ship.setY((float)-ship.getHeight());
+    } else if (ship.getY() < -ship.getHeight()) {
+        // off the top edge, place it at the bottom
+        ship.setY((float)GAME_HEIGHT);
+    }
 }
 
 

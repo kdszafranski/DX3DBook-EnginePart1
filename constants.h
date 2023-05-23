@@ -60,7 +60,7 @@ const float SHIP_ANIM_DELAY = 0.4f;
 const float SHIP_ROTATION_RATE = 25.0f;
 const float SHIP_SCALE = 1.0f;
 const float SHIP_SCALE_RATE = 0.2f;
-const float SHIP_SPEED = 85;
+const float SHIP_SPEED = 150;
 
 
 // key mappings
